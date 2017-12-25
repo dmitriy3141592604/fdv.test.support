@@ -9,6 +9,8 @@ import com.github.typemarkup.Responsibility;
 @Responsibility("Предоставляет возможность отслеживания вызова методов во время выполнения теста")
 public abstract class LoggableTestBase {
 
+	private static final String MSG = "MSG";
+
 	protected final Logger logableTestLogger = LoggerFactory.getLogger(getClass());
 
 	@Responsibility("Хранит сообщения вызываемых методов")
@@ -33,8 +35,13 @@ public abstract class LoggableTestBase {
 		if (!isFirstRecord) {
 			callLog.append(",");
 		}
-		callLog.append("MSG:").append(message);
+		callLog.append(MSG + ":").append(message);
 		isFirstRecord = false;
+	}
+
+	@Responsibility("Позволяет создать замыкание выводящее текст в тестовы лог")
+	protected void logMessageCallBack(String message) {
+		callLog.append(MSG + ":").append(message);
 	}
 
 	@Responsibility("Позволяет вывести в логи значение переменной")
